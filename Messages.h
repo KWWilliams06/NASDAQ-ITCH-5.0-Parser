@@ -128,10 +128,64 @@ struct NOIIMessage{
     uint64_t imbalanceShares;
     char imbalanceDirection;
     std::string ticker;
-    uint32_t farPrice;
-    uint32_t nearPrice;
-    uint32_t referencePrice;
+    double farPrice;
+    double nearPrice;
+    double referencePrice;
     char crossType;
     char priceVariationIndicator;
+};
+
+struct CrossTradeMessage{
+    uint64_t timestamp;
+    uint64_t shareCount;
+    std::string ticker;
+    uint32_t crossPrice;
+    uint64_t matchNumber;
+    char crossType;
+};
+
+struct LULD_AuctionCollar{
+    uint64_t timestamp;
+    std::string ticker;
+    uint32_t referencePrice;
+    uint32_t upperAuctionPrice;
+    uint32_t lowerAuctionPrice;
+    uint32_t extensionCount;
+
+};
+
+struct OperationalHalt{
+    uint64_t timestamp;
+    std::string ticker;
+    char mktCode;
+    char haltAction;
+};
+
+struct RetailInterestMessage{
+    uint64_t timestamp;
+    std::string ticker;
+    char interestFlag;
+};
+
+struct MWCB_StatusMessage{
+    uint64_t timestamp;
+    char breachLevel;
+};
+
+struct DirectListingCaptialRaiseMessage{
+    uint64_t timestamp;
+    std::string ticker;
+    char eligibilityStatus;
+    uint32_t minPrice;
+    uint32_t maxPrice;
+    uint32_t nearExecutionPrice;
+    uint64_t nearExecutionTime;
+    uint32_t lowPriceCollar;
+    uint32_t highPriceCollar;
+};
+
+struct BrokenTradeMessage{
+    uint64_t timestamp;
+    uint64_t matchNumber;
 };
 // Need to add "Message" before every struct

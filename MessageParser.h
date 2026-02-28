@@ -9,7 +9,7 @@ class MessageParser{
 
     private:
         std::ifstream inFile;
-        u_int16_t fileLength;
+        uint16_t fileLength;
 
 
         uint64_t readTimestamp();
@@ -60,4 +60,18 @@ class MessageParser{
         IPOQuoteUpdate parseIPOUpdate();
 
         NOIIMessage parseNOIIMessage();
+
+        CrossTradeMessage parseCrossTradeMessage();
+
+        MWCB_StatusMessage parseMWCB_StatusMessage();
+
+        LULD_AuctionCollar parseLULD_AuctionCollar();
+
+        OperationalHalt parseOperationalHalt();
+
+        RetailInterestMessage parseRetailInterestMessage();
+
+        DirectListingCapitalRaiseMessage parseDirectListingCapitalRaise();
+
+        BrokenTradeMessage parseBrokenTradeMessage();
 };
