@@ -71,7 +71,7 @@ class MessageParser{
 
         RetailInterestMessage parseRetailInterestMessage();
 
-        DirectListingCapitalRaiseMessage parseDirectListingCapitalRaise();
+        DirectListingCaptialRaiseMessage parseDirectListingCapitalRaise();
 
         BrokenTradeMessage parseBrokenTradeMessage();
 };

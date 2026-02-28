@@ -390,7 +390,7 @@ CrossTradeMessage MessageParser::parseCrossTradeMessage(){
     inFile.seekg(2, std::ios::cur);
     return msg;
 }
-MWCB_StatusMessage parseMWCB_StatusMessage(){
+MWCB_StatusMessage MessageParser::parseMWCB_StatusMessage(){
     MWCB_StatusMessage msg;
     inFile.seekg(5, std::ios::cur);
     msg.timestamp = MessageParser::readTimestamp();
@@ -401,12 +401,12 @@ MWCB_StatusMessage parseMWCB_StatusMessage(){
     return msg;
 }
 
-LULD_AuctionCollar parseLULD_AuctionCollar(){
+LULD_AuctionCollar MessageParser::parseLULD_AuctionCollar(){
     LULD_AuctionCollar msg;
     inFile.seekg(5, std::ios::cur);
     msg.timestamp = MessageParser::readTimestamp();
     std::cout << "Timestamp:" << msg.timestamp << std::endl;
-    msg.ticker = MessageParser.readTicker();
+    msg.ticker = MessageParser::readTicker();
     std::cout << "Ticker:" << msg.ticker << std::endl;
     msg.referencePrice = MessageParser::readPrice4();
     std::cout << "Reference Price:" << msg.referencePrice << std::endl;
@@ -421,7 +421,7 @@ LULD_AuctionCollar parseLULD_AuctionCollar(){
     return msg;
 }
 
-OperationalHalt parseOperationalHalt(){
+OperationalHalt MessageParser::parseOperationalHalt(){
     OperationalHalt msg;
     inFile.seekg(5, std::ios::cur);
     msg.timestamp = MessageParser::readTimestamp();
@@ -436,7 +436,7 @@ OperationalHalt parseOperationalHalt(){
     return msg;
 }
 
-RetailInterestMessage parseRetailInterestMessage(){
+RetailInterestMessage MessageParser::parseRetailInterestMessage(){
     RetailInterestMessage msg;
     inFile.seekg(5, std::ios::cur);
     msg.timestamp = MessageParser::readTimestamp();
@@ -449,8 +449,8 @@ RetailInterestMessage parseRetailInterestMessage(){
     return msg;
 }
 
-DirectListingCapitalRaiseMessage parseDirectListingCapitalRaise(){
-    DirectListingCapitalRaiseMessage msg;
+DirectListingCaptialRaiseMessage MessageParser::parseDirectListingCapitalRaise(){
+    DirectListingCaptialRaiseMessage msg;
     inFile.seekg(5, std::ios::cur);
     msg.timestamp = MessageParser::readTimestamp();
     std::cout << "Timestamp:" << msg.timestamp << std::endl;
@@ -475,7 +475,7 @@ DirectListingCapitalRaiseMessage parseDirectListingCapitalRaise(){
     return msg;
 }
 
-BrokenTradeMessage parseBrokenTradeMessage(){
+BrokenTradeMessage MessageParser::parseBrokenTradeMessage(){
     BrokenTradeMessage msg;
     inFile.seekg(5, std::ios::cur);
     msg.timestamp = MessageParser::readTimestamp();
