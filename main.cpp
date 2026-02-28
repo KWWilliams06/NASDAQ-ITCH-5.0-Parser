@@ -59,6 +59,27 @@ int main(){
             case 'I':
                 parser.parseNOIIMessage();
                 break;
+            case 'Q':
+                parser.parseCrossTradeMessage();
+                break;
+            case 'W':
+                parser.parseMWCB_StatusMessage();
+                break;
+            case 'J':
+                parser.parseLULD_AuctionCollar();
+                break;
+            case 'h':
+                parser.parseOperationalHalt();
+                break;
+            case 'N':
+                parser.parseRetailInterestMessage();
+                break;
+            case 'O':
+                parser.parseDirectListingCapitalRaise();
+                break;
+            case 'B':
+                parser.parseBrokenTradeMessage();
+                break;
             default:
                 return 0;
         }

@@ -348,22 +348,140 @@ NOIIMessage MessageParser::parseNOIIMessage(){
     inFile.seekg(5, std::ios::cur);
     msg.timestamp = MessageParser::readTimestamp();
     std::cout << "Timestamp:" << msg.timestamp << std::endl;
-    msg.pairedShares = MessageParser::readRefNumber();
-    std::cout << "Shares:" << msg.pairedShares << std::endl;
-    msg.imbalanceShares = MessageParser::readRefNumber();
+    inFile.read((char*)&msg.pairedShares, 8);
+    msg.pairedShares = __builtin_bswap64(msg.pairedShares);
+    std::cout << "Paired Shares:" << msg.pairedShares << std::endl;
+    inFile.read((char*)&msg.imbalanceShares, 8);
+    msg.imbalanceShares = __builtin_bswap64(msg.imbalanceShares);
     std::cout << "Imbalance Shares:" << msg.imbalanceShares << std::endl;
     inFile.read((char*)&msg.imbalanceDirection, 1);
-    std::cout << "Imbalance Direction:" << std::endl;
+    std::cout << "Imbalance Direction:" << msg.imbalanceDirection << std::endl;
     msg.ticker = readTicker();
     std::cout << "Ticker:" << msg.ticker << std::endl;
     msg.farPrice = MessageParser::readPrice4();
     std::cout << "Far Price:" << msg.farPrice << std::endl;
     msg.nearPrice = MessageParser::readPrice4();
     std::cout << "Near Price:" << msg.nearPrice << std::endl;
+    msg.referencePrice = MessageParser::readPrice4();
+    std::cout << "Reference Price:" << msg.referencePrice << std::endl;
     inFile.read((char*)&msg.crossType, 1);
     std::cout << "Cross Type:" << msg.crossType << std::endl;
     inFile.read((char*)&msg.priceVariationIndicator, 1);
     std::cout << "Price Variation:" << msg.priceVariationIndicator << std::endl;
+    inFile.seekg(2, std::ios::cur);
+    return msg;
+}
+
+CrossTradeMessage MessageParser::parseCrossTradeMessage(){
+    CrossTradeMessage msg;
+    inFile.seekg(5, std::ios::cur);
+    msg.timestamp = MessageParser::readTimestamp();
+    std::cout << "Timestamp:" << msg.timestamp << std::endl;
+    msg.shareCount = readShareCount();
+    std::cout << "Shares:" << msg.shareCount << std::endl;
+    msg.ticker = readTicker();
+    std::cout << "Ticker:" << msg.ticker << std::endl;
+    msg.crossPrice = readPrice4();
+    std::cout << "Cross Price:" << msg.crossPrice << std::endl;
+    msg.matchNumber = readRefNumber();
+    std::cout << "Match Number:" << msg.matchNumber << std::endl;
+    inFile.read((char*)&msg.crossType, 1);
+    std::cout << "Cross Type:" << msg.crossType << std::endl;
+    inFile.seekg(2, std::ios::cur);
+    return msg;
+}
+MWCB_StatusMessage parseMWCB_StatusMessage(){
+    MWCB_StatusMessage msg;
+    inFile.seekg(5, std::ios::cur);
+    msg.timestamp = MessageParser::readTimestamp();
+    std::cout << "Timestamp:" << msg.timestamp << std::endl;
+    inFile.read((char*)&msg.breachLevel, 1);
+    std::cout << "Breach Level:" << msg.breachLevel << std::endl;
+    inFile.seekg(2, std::ios::cur);
+    return msg;
+}
+
+LULD_AuctionCollar parseLULD_AuctionCollar(){
+    LULD_AuctionCollar msg;
+    inFile.seekg(5, std::ios::cur);
+    msg.timestamp = MessageParser::readTimestamp();
+    std::cout << "Timestamp:" << msg.timestamp << std::endl;
+    msg.ticker = MessageParser.readTicker();
+    std::cout << "Ticker:" << msg.ticker << std::endl;
+    msg.referencePrice = MessageParser::readPrice4();
+    std::cout << "Reference Price:" << msg.referencePrice << std::endl;
+    msg.upperAuctionPrice = MessageParser::readPrice4();
+    std::cout << "Upper Auction Price:" << msg.upperAuctionPrice << std::endl;
+    msg.lowerAuctionPrice = MessageParser::readPrice4();
+    std::cout << "Lower Auction Price:" << msg.lowerAuctionPrice << std::endl;
+    inFile.read((char*)&msg.extensionCount, 4);
+    msg.extensionCount = __builtin_bswap32(msg.extensionCount);
+    std::cout << "Extension Count:" << msg.extensionCount << std::endl;
+    inFile.seekg(2, std::ios::cur);
+    return msg;
+}
+
+OperationalHalt parseOperationalHalt(){
+    OperationalHalt msg;
+    inFile.seekg(5, std::ios::cur);
+    msg.timestamp = MessageParser::readTimestamp();
+    std::cout << "Timestamp:" << msg.timestamp << std::endl;
+    msg.ticker = MessageParser::readTicker();
+    std::cout << "Ticker:" << msg.ticker << std::endl;
+    inFile.read((char*)&msg.mktCode, 1);
+    std::cout << "Market Code:" << msg.mktCode << std::endl;
+    inFile.read((char*)&msg.haltAction, 1);
+    std::cout << "Halt Action:" << msg.haltAction << std::endl;
+    inFile.seekg(2, std::ios::cur);
+    return msg;
+}
+
+RetailInterestMessage parseRetailInterestMessage(){
+    RetailInterestMessage msg;
+    inFile.seekg(5, std::ios::cur);
+    msg.timestamp = MessageParser::readTimestamp();
+    std::cout << "Timestamp:" << msg.timestamp << std::endl;
+    msg.ticker = MessageParser::readTicker();
+    std::cout << "Ticker:" << msg.ticker << std::endl;
+    inFile.read((char*)&msg.interestFlag, 1);
+    std::cout << "Interest Flag:" << msg.interestFlag << std::endl;
+    inFile.seekg(2, std::ios::cur);
+    return msg;
+}
+
+DirectListingCapitalRaiseMessage parseDirectListingCapitalRaise(){
+    DirectListingCapitalRaiseMessage msg;
+    inFile.seekg(5, std::ios::cur);
+    msg.timestamp = MessageParser::readTimestamp();
+    std::cout << "Timestamp:" << msg.timestamp << std::endl;
+    msg.ticker = MessageParser::readTicker();
+    std::cout << "Ticker:" << msg.ticker << std::endl;
+    inFile.read((char*)&msg.eligibilityStatus, 1);
+    std::cout << "Eligibility:" << msg.eligibilityStatus << std::endl;
+    msg.minPrice = MessageParser::readPrice4();
+    std::cout << "Min Price:" << msg.minPrice << std::endl;
+    msg.maxPrice = MessageParser::readPrice4();
+    std::cout << "Max Price:" << msg.maxPrice << std::endl;
+    msg.nearExecutionPrice = MessageParser::readPrice4();
+    std::cout << "Near Execution Price:" << msg.nearExecutionPrice << std::endl;
+    inFile.read((char*)&msg.nearExecutionTime, 8);
+    msg.nearExecutionTime = __builtin_bswap64(msg.nearExecutionTime);
+    std::cout << "Near Execution Time:" << msg.nearExecutionTime << std::endl;
+    msg.lowPriceCollar = MessageParser::readPrice4();
+    std::cout << "Low Price Collar:" << msg.lowPriceCollar << std::endl;
+    msg.highPriceCollar = MessageParser::readPrice4();
+    std::cout << "High Price Collar:" << msg.highPriceCollar << std::endl;
+    inFile.seekg(2, std::ios::cur);
+    return msg;
+}
+
+BrokenTradeMessage parseBrokenTradeMessage(){
+    BrokenTradeMessage msg;
+    inFile.seekg(5, std::ios::cur);
+    msg.timestamp = MessageParser::readTimestamp();
+    std::cout << "Timestamp:" << msg.timestamp << std::endl;
+    msg.matchNumber = MessageParser::readRefNumber();
+    std::cout << "Match Number:" << msg.matchNumber << std::endl;
     inFile.seekg(2, std::ios::cur);
     return msg;
 }
